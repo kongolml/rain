@@ -12,7 +12,7 @@ const setCanvas = () => {
 const init = () => {
 	setCanvas()
 
-	new Rain(10).start()
+	new Rain(10).init()
 }
 
 

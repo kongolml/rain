@@ -16,30 +16,24 @@ export class RainDrop {
 		this.color = '#ff8800'
 	}
 
-	draw() {
-		canvas.clearRect(0, 0, document.documentElement.clientWidth, document.documentElement.clientHeight)
-
-		// canvas.beginPath()
-
-		canvas.rect(this.x, this.y, this.size.width, this.size.height)
-		canvas.fillStyle = this.color
-		canvas.fill()
-	}
-
 	drip() {
 		if(this.y < document.documentElement.clientHeight) {
+			canvas.rect(this.x, this.y, this.size.width, this.size.height)
+			canvas.fillStyle = this.color
+			canvas.fill()
+
 			this.y += this.speedY
-
-			this.draw()
-
-			requestAnimationFrame(this.drip.bind(this))
 		} else {
-			this.sprinkle()
+			this.die()
 		}
 	}
 
 	sprinkle() {
 
+	}
+
+	die() {
+		vars.rainDropsList.splice(vars.rainDropsList.indexOf(this), 1)
 	}
 }
 
@@ -50,15 +44,24 @@ export class Rain {
 		this.rainDropsQuantity = rainDropsQuantity
 	}
 
-	start() {
+	init() {
 		for(let i=0; i<this.rainDropsQuantity; i++) {
 			vars.rainDropsList.push(
 				new RainDrop(Math.floor(Math.random() * vars.canvasEl.width) + 1)
 			)
 		}
 
-		vars.rainDropsList.forEach(rainDrop => {
-			rainDrop.drip()
+		this.start()
+	}
+
+	start() {
+		requestAnimationFrame(() => {
+			console.log(1)
+			canvas.clearRect(0, 0, document.documentElement.clientWidth, document.documentElement.clientHeight)
+
+			vars.rainDropsList.forEach(rainDrop => {
+				rainDrop.drip()
+			})
 		})
 	}
 }
